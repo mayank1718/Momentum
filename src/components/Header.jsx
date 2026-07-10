@@ -2,7 +2,7 @@ import { Search, Sparkles } from "lucide-react";
 import React from "react";
 import AddTaskBtn from "./model/AddTaskBtn";
 
-const Header = () => {
+const Header = ({setPortalModel, portalModel}) => {
   return (
     <header className="rounded-xl border border-slate-700/70 bg-slate-900/70 p-4 shadow-[0_20px_60px_-24px_rgba(2,6,23,0.85)] backdrop-blur-xl sm:p-6">
       <div className="flex items-start justify-between gap-3">
@@ -25,7 +25,7 @@ const Header = () => {
           className="w-full bg-transparent text-sm text-slate-100 outline-none placeholder:text-slate-400"
         />
       </div>
-      <AddTaskBtn />
+      <AddTaskBtn setPortalModel={setPortalModel} portalModel={portalModel} />
      </div>
     </header>
   );

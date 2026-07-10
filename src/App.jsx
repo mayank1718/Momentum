@@ -27,15 +27,15 @@ import QuickAction from "./components/QuickAction";
 import Glance from "./components/Glance";
 import NavBar from "./components/NavBar";
 import FormPortal from "./components/model/FormPortal";
-import { useState } from "react";
+import { useContext } from "react";
+import TaskContext from "./context/TaskContext";
 
 function App() {
-
-  const [portalModel, setPortalModel] = useState(false)
+  const { showPortalForm } = useContext(TaskContext);
 
   return (
     <div className="min-h-screen px-3 py-4 text-slate-100 sm:px-5 lg:px-8 lg:py-8">
-      {portalModel && <FormPortal setPortalModel={setPortalModel} />}
+      {showPortalForm && <FormPortal />}
       <div className="mx-auto flex max-w-7xl flex-col gap-4 lg:gap-6">
         <Header />
         <Sections />
@@ -67,7 +67,7 @@ function App() {
         </div>
 
         {/* Future functionality hooks: connect search, task selection, and nav state here. */}
-        <NavBar setPortalModel={setPortalModel} portalModel={portalModel} />
+        <NavBar />
       </div>
     </div>
   );
