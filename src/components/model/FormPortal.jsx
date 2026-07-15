@@ -3,9 +3,10 @@ import { createPortal } from "react-dom";
 import TaskContext from "../../context/TaskContext";
 
 const FormPortal = () => {
-  const { setShowPortalForm, setTaskData } = useContext(TaskContext);
+  const { setShowPortalForm, setTaskData, taskData } = useContext(TaskContext);
 
   const [formData, setFormData] = useState({
+    id: crypto.randomUUID(),
     title: "",
     description: "",
     date: "",
@@ -19,6 +20,7 @@ const FormPortal = () => {
     e.preventDefault();
     setTaskData((prev) => [...prev, formData]);
     setFormData({
+      id: crypto.randomUUID(),
       title: "",
       description: "",
       date: "",
@@ -27,6 +29,8 @@ const FormPortal = () => {
       priority: "",
       progressState: "",
     });
+    console.log(taskData.id);
+    
   };
 
   const handleChange = (e) => {
