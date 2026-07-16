@@ -22,17 +22,21 @@ import GlassCard from "./GlassCard";
 import TaskContext from "../context/TaskContext";
 
 const Todo = () => {
-  const { taskData, setShowPortalForm, setTaskData } = useContext(TaskContext);
+  const { taskData, setShowPortalForm, setTaskData, setIsEdit, setEditId, setFormData } =
+    useContext(TaskContext);
 
   const handleDelete = (idx) => {
     const copy = [...taskData];
     copy.splice(idx, 1);
     setTaskData(copy);
   };
-  
-  const handleEdit = (id) => {
-    console.log(id);
-  }
+
+  const handleEdit = (task) => {
+    setEditId(task.id);
+    setIsEdit(true);
+    setShowPortalForm(true);
+    setFormData(task)
+  };
 
   return (
     <GlassCard className="min-h-76">
@@ -110,7 +114,10 @@ const Todo = () => {
                 <div className="flex gap-2.5">
                   <button className="text-slate-500 bg-white/5 hover:text-sky-400 p-2 rounded-full hover:scale-105 cursor-pointer">
                     {" "}
-                    <SquarePen onClick={()=>handleEdit(task.id)} size={18} />{" "}
+                    <SquarePen
+                      onClick={() => handleEdit(task)}
+                      size={18}
+                    />{" "}
                   </button>
                   <button
                     onClick={() => handleDelete(idx)}

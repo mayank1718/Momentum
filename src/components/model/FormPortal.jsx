@@ -1,26 +1,39 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { createPortal } from "react-dom";
 import TaskContext from "../../context/TaskContext";
 
 const FormPortal = () => {
-  const { setShowPortalForm, setTaskData, taskData } = useContext(TaskContext);
+  const {
+    setShowPortalForm,
+    setTaskData,
+    taskData,
+    isEdit,
+    editId,
+    formData,
+    setFormData,
+    setEditId,
+    setIsEdit,
+  } = useContext(TaskContext);
 
-  const [formData, setFormData] = useState({
-    id: crypto.randomUUID(),
-    title: "",
-    description: "",
-    date: "",
-    time: "",
-    category: "",
-    priority: "",
-    progressState: "",
-  });
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTaskData((prev) => [...prev, formData]);
+    
+    if(isEdit) {
+       const updateData = taskData.map((task)=>
+           task.id === editId ? {...task,...formData} : task
+      )
+      setTaskData(updateData)
+      setEditId(null)
+    } else {
+      setTaskData(prev=> [formData,...prev])
+    }
+    
+    setShowPortalForm(false)
+    setIsEdit(false)
     setFormData({
-      id: crypto.randomUUID(),
+      id: null,
       title: "",
       description: "",
       date: "",
@@ -29,8 +42,6 @@ const FormPortal = () => {
       priority: "",
       progressState: "",
     });
-    console.log(taskData.id);
-    
   };
 
   const handleChange = (e) => {
@@ -135,7 +146,9 @@ const FormPortal = () => {
           </select>
         </div>
         <div className="flex justify-between w-full mt-4">
-          <button onClick={handleSubmit} className="px-6 py-3 active:scale-95 active:shadow-[0_6px_15px_rgba(56,189,248,0.35)] border border-cyan-400 rounded-xl">
+          <button
+            onClick={handleSubmit}
+            className="px-6 py-3 active:scale-95 active:shadow-[0_6px_15px_rgba(56,189,248,0.35)] border border-cyan-400 rounded-xl">
             Add Task
           </button>
           <button
