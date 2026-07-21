@@ -3,9 +3,9 @@ import GlassCard from "./GlassCard";
 
 const Timer = () => {
   const [isRunning, setIsRunning] = useState(false);
-  const [mode, setMode] = useState("work");
-  const [timeLeft, setTimeLeft] = useState(5);
-  const [completedSession, setCompletedSession] = useState(0);
+  const [mode, setMode] = useState("Work");
+  const [timeLeft, setTimeLeft] = useState(2);
+  const [completedSession, setCompletedSession] = useState(1);
 
   const min = Math.floor(timeLeft / 60)
     .toString()
@@ -17,21 +17,11 @@ const Timer = () => {
       const timer = setInterval(() => {
         if (timeLeft > 0) {
           setTimeLeft((prev) => prev - 1);
-        } else {
-          setIsRunning(false);
-          setCompletedSession((prev) => prev + 1);
-          if (completedSession % 4 === 0) {
-            setTimeLeft(300)
-            setMode("Sort break")
-          } else {
-            setTimeLeft(900)
-            setMode("Long break")
-          }
         }
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [isRunning, timeLeft, completedSession]);
+  }, [isRunning, timeLeft]);
 
   return (
     <GlassCard highlighted>
@@ -42,7 +32,14 @@ const Timer = () => {
             Stay in the flow for 25 minutes.
           </p>
         </div>
-        <div className="rounded-full bg-amber-500/15 px-3 py-1 text-sm font-medium text-amber-300">
+        <div
+          className={
+            mode == "Work"
+              ? "rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-medium text-green-300"
+              : mode == "Sort break"
+                ? "rounded-full bg-amber-500/15 px-3 py-1 text-sm font-medium text-amber-300"
+                : "rounded-full bg-cyan-500/15 px-3 py-1 text-sm font-medium text-sky-300"
+          }>
           {mode}
         </div>
       </div>

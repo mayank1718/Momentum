@@ -15,23 +15,20 @@ const FormPortal = () => {
     setIsEdit,
   } = useContext(TaskContext);
 
-  
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if(isEdit) {
-       const updateData = taskData.map((task)=>
-           task.id === editId ? {...task,...formData} : task
-      )
-      setTaskData(updateData)
-      setEditId(null)
+
+    if (isEdit) {
+      const updateData = taskData.map((task) =>
+        task.id === editId ? { ...task, ...formData } : task,
+      );
+      setTaskData(updateData);
+      setEditId(null);
+      setIsEdit(false);
     } else {
-      setTaskData(prev=> [formData,...prev])
+      setTaskData((prev) => [formData, ...prev]);
     }
-    
-    setShowPortalForm(false)
-    setIsEdit(false)
+    setShowPortalForm(false);
     setFormData({
       id: null,
       title: "",
@@ -61,7 +58,10 @@ const FormPortal = () => {
             Start Your Momentum -
           </h2>
           <button
-            onClick={() => setShowPortalForm(false)}
+            onClick={() => {
+              setShowPortalForm(false);
+              setIsEdit(false);
+            }}
             className="px-6 py-3 active:scale-95 active:shadow-[0_6px_15px_rgba(56,189,248,0.35)] border border-orange-400 rounded-xl">
             Back
           </button>
@@ -149,10 +149,13 @@ const FormPortal = () => {
           <button
             onClick={handleSubmit}
             className="px-6 py-3 active:scale-95 active:shadow-[0_6px_15px_rgba(56,189,248,0.35)] border border-cyan-400 rounded-xl">
-            Add Task
+            {isEdit === true ? "Update" : "Save"}
           </button>
           <button
-            onClick={() => setShowPortalForm(false)}
+            onClick={() => {
+              setShowPortalForm(false);
+              setIsEdit(false);
+            }}
             className="px-6 py-3 active:scale-95 active:shadow-[0_6px_15px_rgba(56,189,248,0.35)] border border-orange-400 rounded-xl">
             Cancel
           </button>
